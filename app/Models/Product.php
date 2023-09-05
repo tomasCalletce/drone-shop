@@ -15,10 +15,11 @@ class Product extends Model
      * $this->attributes['name'] - string - contains the product name
      * $this->attributes['description'] - string - contains the description of the product
      * $this->attributes['price'] - int - contains the product price
+     * this->attributes['created_at'] - string - contains the date of creation of the product
+     * this->attributes['updated_at'] - string - contains the date of update of the product
     */
 
     protected $fillable = ['name','description','price'];
-
 
     // GETTERS
     public function getId(): int
@@ -41,6 +42,16 @@ class Product extends Model
         return $this->attributes['price'];
     }
 
+    public function getCreatedAt(): string
+    {
+        return $this->attributes['created_at'];
+    }
+
+    public function getUpdatedAt(): string
+    {
+        return $this->attributes['updated_at'];
+    }
+
     // SETTERS
     public function setName(string $name): void
     {
@@ -55,6 +66,12 @@ class Product extends Model
     public function setPrice(int $price): void
     {
         $this->attributes['price'] = $price;
+    }
+
+    // RELATIONS
+    function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
 }

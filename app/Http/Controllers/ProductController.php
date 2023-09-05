@@ -2,9 +2,11 @@
  
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Product;
+use App\Models\Comment;
  
 class ProductController extends Controller
 {
@@ -31,7 +33,7 @@ class ProductController extends Controller
       return view('product.create')->with('viewData',$viewData);
     }
 
-    public function save(Request $request)
+    public function save(Request $request) : RedirectResponse
     {
       $request->validate([
         'name' => 'required',
@@ -44,9 +46,23 @@ class ProductController extends Controller
       return redirect()->route('product.index')->with('success', 'New product saved successfully!');
     }
 
-    public function destroy(int $id)
+    public function destroy(int $id) : RedirectResponse
     {
+      Comment::where('product_id', $id)->delete();
       Product::destroy($id);
       return redirect()->route('product.index')->with('success', 'Product deleted successfully!');
+    }
+
+    public function update(Request $request, int $id) : RedirectResponse
+    {
+      $request->validate([
+        'name' => 'required',
+        'description' => 'required',
+        'price'=> 'required'
+      ]);
+
+      Product::findOrFail($id)->update($request->all());
+
+      return redirect()->route('product.show', ['id' => $id])->with('success', 'Product updated successfully!');
     }
 }

@@ -22,3 +22,7 @@ Route::post('/products/save', 'App\Http\Controllers\ProductController@save')->na
 Route::get('/products/create', 'App\Http\Controllers\ProductController@create')->name("product.create");
 Route::get('/products/{id}', 'App\Http\Controllers\ProductController@show')->name("product.show");
 Route::delete('/products/{id}', 'App\Http\Controllers\ProductController@destroy')->name("product.destroy");
+Route::put('/products/{id}', 'App\Http\Controllers\ProductController@update')->name("product.update");
+
+//comments 
+Route::post('/comments/save/{id}', 'App\Http\Controllers\CommentController@save')->name("comment.save");
